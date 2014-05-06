@@ -17,7 +17,7 @@ my %options;
 GetOptions( \%options, 'dsn=s', 'user=s', 'passwd=s', 'file=s' );
 for my $arg (qw/dsn user passwd file/) {
     die
-        "\tperl $script -dsn=ORACLE_DNS -user=USERNAME -passwd=PASSWD -file=FILE_NAME\n\n"
+        "\tperl $script -dsn=ORACLE_DNS -user=USERNAME -passwd=PASSWD -file=FILE_NAME\n"
         if not defined $options{$arg};
 }
 
@@ -26,7 +26,7 @@ my $user     = $options{user};
 my $pass     = $options{passwd};
 my $filename = $options{file};
 
-open my $FILE, '<', $filename or die "Cannot open '$filename'!\n";
+open my $FILE, '<', $filename or die "Sorry, but I cannot open '$filename'!\n";
 
 say "- Processing the file";
 
@@ -75,7 +75,7 @@ $dbh->disconnect();
 # Printing the file again adding the additional column of DDB_G_ID
 
 # Output
-my $outfile = "all-mutants-ddb_g.txt";
+my $outfile = "../data/all-mutants-ddb_g.txt";
 open my $out, '>', $outfile
     or die "\nBig problem!!!!\nI can't create '$outfile'\n";
 
@@ -139,6 +139,10 @@ perl update_curated_mutants_with_ddbg_id.pl  --dsn=<Oracle DSN> --user=<Oracle u
  --user          Database user name
  --passwd        Database password
  --file          File name (probably all-mutants.txt)
+
+=head1 INPUT
+
+It requires the <all-muntants.txt> file be available at the ../data/ directory.
 
 =head1 OUTPUT
 
