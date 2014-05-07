@@ -63,6 +63,10 @@ and now I can run the commands for PostgrlSQL
 	- Sqitch is a database change management application. Use it when planning to do changes in the database to keep track
 		- sudo cpanm App::Sqitch DBD::Pg
 
+* Perl Object Oriented related ->
+	- cpanm Moose
+	- cpanm Moose::Manual
+
 - perl-5.18.2.tar.gz (locally)
 - Homebrew: it needed to install the Xcode. And using brew I installed:
 
