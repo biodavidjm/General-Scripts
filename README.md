@@ -62,9 +62,21 @@ and now I can run the commands for PostgrlSQL
 	**Do not install Test-Chado**
 	- Sqitch is a database change management application. Use it when planning to do changes in the database to keep track
 		- sudo cpanm App::Sqitch DBD::Pg
-* Perlbrew: cpanm App::perlbrew, although the best option is to follow the instructions [online](http://search.cpan.org/~gugod/App-perlbrew-0.67/lib/App/perlbrew.pm)
+* Perlbrew: cpanm App::perlbrew, although the best option is to follow the instructions [online](http://search.cpan.org/~gugod/App-perlbrew-0.67/lib/App/perlbrew.pm). I followed these steps:
 
-* Perl Object Oriented related ->
+```
+	* curl -kL http://install.perlbrew.pl | bash
+	* perlbrew init
+	* perlbrew available
+	* perlbrew install perl-5.19.11 (**it took a while**)
+	* perlbrew list (check what is installed)
+	* perlbrew switch perl-5.12.2 (Switch perl in the $PATH) + perl -v
+    * perlbrew use perl-5.8.1 (Temporarily use another version only in current shell) + perl -v
+    * perlbrew off (Turn it off completely. Useful when you messed up too deep. Or want to go back to the system Perl)
+    * perlbrew switch perl-5.12.2
+```
+
+* Perl Object Oriented related
 	- cpanm Moose
 	- cpanm Moose::Manual
 
