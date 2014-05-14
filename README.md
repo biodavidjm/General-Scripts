@@ -105,7 +105,48 @@ Finally, install the DBI module ``cpanm PERL::DBI``, which was installed WITH SU
 
 The testing script ``connect2oracle.pl`` was tested to connect to the Oracle database at the VM on nubic with SUCCESS!
 
-The preliminary conclusion is that now it is possible to develop perl DBI scripts from a Mac OS X (64 bits).
+**The preliminary conclusion is that now it is possible to develop perl DBI scripts from a Mac OS X (64 bits).**
+
+##### Installing Chado on PostgreSQL.
+
+I basically followed the steps explained in the [GMOD chado tutorial](http://gmod.org/wiki/Chado_Tutorial#Practice).
+- MAKER (portable genome annotation pipeline) 
+	- brew install maker. It required the additional modules:
+       - cpanm IO::Prompt
+       - cpanm IO::Prompt
+       - cpanm help
+       - cpanm forks::shared
+       - cpanm forks::shared
+       - cpanm forks::shared
+       - cpanm File::Which
+       - cpanm Bio::Perl
+       - cpanm PerlIO::gzip
+       - cpanm Bit::Vector
+       - cpanm Perl::Unsafe::Signals
+       - cpanm Inline
+       - cpanm DBI
+       - cpanm DBD::SQLite
+       - cpanm DBD::Oracle
+       - brew install gcc
+     But after all this LONG waiting, I finally got this output:
+     
+     ```
+      brew install maker
+		==> Downloading http://yandell.topaz.genetics.utah.edu/maker_downloads/static/maker-2.31.4.tgz 
+		Already downloaded: /Library/Caches/Homebrew/maker-2.31.4.tgz
+		==> yes "" |perl Build.PL
+		==> ./Build install
+
+		MISSING MAKER PREREQUISITES - CANNOT CONTINUE!!
+		Building MAKER
+
+		READ THIS: https://github.com/Homebrew/homebrew/wiki/troubleshooting
+		If reporting this issue please do so at (not Homebrew/homebrew):
+		  https://github.com/homebrew/homebrew-science/issues
+	  ```
+
+		Therefore, I downloaded MAKER from the official website and installed it on ``~/local/maker/bin/``
+
 
 
 ### Development
