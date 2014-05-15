@@ -15,7 +15,8 @@ updates the all-mutants.txt file from the ___Download___ section of the dictyweb
 ## Installations on the Mac
 by @biodavidjm
 
-Compilation of all the installations on my machine.
+Compilation of all the installations on a Mac OS X 10.9 (Mavericks).
+
 
 ### General
 
@@ -50,6 +51,7 @@ Compilation of all the installations on my machine.
 and now I can run the commands for PostgrlSQL
 - Pgadmim (GUI)
 - Modware loader from github
+
 
 ##### Installation of DBD::Oracle 
 
@@ -107,9 +109,10 @@ The testing script ``connect2oracle.pl`` was tested to connect to the Oracle dat
 
 **The preliminary conclusion is that now it is possible to develop perl DBI scripts from a Mac OS X (64 bits).**
 
-##### Installing Chado on PostgreSQL.
+##### Installing Chado on PostgreSQL 
 
 I basically followed the steps explained in the [GMOD chado tutorial](http://gmod.org/wiki/Chado_Tutorial#Practice).
+
 - MAKER (portable genome annotation pipeline) 
 	- brew install maker. It required the additional modules:
        - cpanm IO::Prompt
@@ -130,7 +133,7 @@ I basically followed the steps explained in the [GMOD chado tutorial](http://gmo
        - brew install gcc
      But after all this LONG waiting, I finally got this output:
      
-     ```
+	```
       brew install maker
 		==> Downloading http://yandell.topaz.genetics.utah.edu/maker_downloads/static/maker-2.31.4.tgz 
 		Already downloaded: /Library/Caches/Homebrew/maker-2.31.4.tgz
@@ -143,9 +146,420 @@ I basically followed the steps explained in the [GMOD chado tutorial](http://gmo
 		READ THIS: https://github.com/Homebrew/homebrew/wiki/troubleshooting
 		If reporting this issue please do so at (not Homebrew/homebrew):
 		  https://github.com/homebrew/homebrew-science/issues
-	  ```
+	```
 
-		Therefore, I downloaded MAKER from the official website and installed it on ``~/local/maker/bin/``
+	Therefore, I downloaded MAKER from the official website and installed it on `~/local/maker/bin/`
+
+- Download [CHADO](http://sourceforge.net/projects/gmod/files/gmod/) and follow installation instructions:
+	- Install all the required perl modules: `cpanm install Bundle::GMOD`:
+	
+	```
+	! Installing the dependencies failed: Module 'HTML::TreeBuilder' is not installed
+	! Bailing out the installation for Bundle-GMOD-1.0.
+	34 distributions installed
+	```
+	- Install CHADO. Basically, cd into chado-1.23/ and
+	
+	```
+	perl Makefile.PL GMOD_ROOT=/usr/local/gmod CHADO_DB_NAME=david_chado
+	-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+	Makefile written.  Now you should do the following, in order:
+	  1. make              (creates necessary build files)
+	  2. sudo make install (creates $GMOD_ROOT and subdirectories)
+  	  3. make load_schema (loads SQL schema into database)
+	```
+	And the database `david_chado` was created, with the following list of tables:
+	
+	```
+	                                      List of relations
+ Schema |                              Name                               |   Type   | Owner
+--------+-----------------------------------------------------------------+----------+--------
+ public | acquisition                                                     | table    | username
+ public | acquisition_acquisition_id_seq                                  | sequence | username
+ public | acquisition_relationship                                        | table    | username
+ public | acquisition_relationship_acquisition_relationship_id_seq        | sequence | username
+ public | acquisitionprop                                                 | table    | username
+ public | acquisitionprop_acquisitionprop_id_seq                          | sequence | username
+ public | all_feature_names                                               | view     | username
+ public | analysis                                                        | table    | username
+ public | analysis_analysis_id_seq                                        | sequence | username
+ public | analysisfeature                                                 | table    | username
+ public | analysisfeature_analysisfeature_id_seq                          | sequence | username
+ public | analysisfeatureprop                                             | table    | username
+ public | analysisfeatureprop_analysisfeatureprop_id_seq                  | sequence | username
+ public | analysisprop                                                    | table    | username
+ public | analysisprop_analysisprop_id_seq                                | sequence | username
+ public | arraydesign                                                     | table    | username
+ public | arraydesign_arraydesign_id_seq                                  | sequence | username
+ public | arraydesignprop                                                 | table    | username
+ public | arraydesignprop_arraydesignprop_id_seq                          | sequence | username
+ public | assay                                                           | table    | username
+ public | assay_assay_id_seq                                              | sequence | username
+ public | assay_biomaterial                                               | table    | username
+ public | assay_biomaterial_assay_biomaterial_id_seq                      | sequence | username
+ public | assay_project                                                   | table    | username
+ public | assay_project_assay_project_id_seq                              | sequence | username
+ public | assayprop                                                       | table    | username
+ public | assayprop_assayprop_id_seq                                      | sequence | username
+ public | biomaterial                                                     | table    | username
+ public | biomaterial_biomaterial_id_seq                                  | sequence | username
+ public | biomaterial_dbxref                                              | table    | username
+ public | biomaterial_dbxref_biomaterial_dbxref_id_seq                    | sequence | username
+ public | biomaterial_relationship                                        | table    | username
+ public | biomaterial_relationship_biomaterial_relationship_id_seq        | sequence | username
+ public | biomaterial_treatment                                           | table    | username
+ public | biomaterial_treatment_biomaterial_treatment_id_seq              | sequence | username
+ public | biomaterialprop                                                 | table    | username
+ public | biomaterialprop_biomaterialprop_id_seq                          | sequence | username
+ public | cell_line                                                       | table    | username
+ public | cell_line_cell_line_id_seq                                      | sequence | username
+ public | cell_line_cvterm                                                | table    | username
+ public | cell_line_cvterm_cell_line_cvterm_id_seq                        | sequence | username
+ public | cell_line_cvtermprop                                            | table    | username
+ public | cell_line_cvtermprop_cell_line_cvtermprop_id_seq                | sequence | username
+ public | cell_line_dbxref                                                | table    | username
+ public | cell_line_dbxref_cell_line_dbxref_id_seq                        | sequence | username
+ public | cell_line_feature                                               | table    | username
+ public | cell_line_feature_cell_line_feature_id_seq                      | sequence | username
+ public | cell_line_library                                               | table    | username
+ public | cell_line_library_cell_line_library_id_seq                      | sequence | username
+ public | cell_line_pub                                                   | table    | username
+ public | cell_line_pub_cell_line_pub_id_seq                              | sequence | username
+ public | cell_line_relationship                                          | table    | username
+ public | cell_line_relationship_cell_line_relationship_id_seq            | sequence | username
+ public | cell_line_synonym                                               | table    | username
+ public | cell_line_synonym_cell_line_synonym_id_seq                      | sequence | username
+ public | cell_lineprop                                                   | table    | username
+ public | cell_lineprop_cell_lineprop_id_seq                              | sequence | username
+ public | cell_lineprop_pub                                               | table    | username
+ public | cell_lineprop_pub_cell_lineprop_pub_id_seq                      | sequence | username
+ public | chadoprop                                                       | table    | username
+ public | chadoprop_chadoprop_id_seq                                      | sequence | username
+ public | channel                                                         | table    | username
+ public | channel_channel_id_seq                                          | sequence | username
+ public | common_ancestor_cvterm                                          | view     | username
+ public | common_descendant_cvterm                                        | view     | username
+ public | contact                                                         | table    | username
+ public | contact_contact_id_seq                                          | sequence | username
+ public | contact_relationship                                            | table    | username
+ public | contact_relationship_contact_relationship_id_seq                | sequence | username
+ public | control                                                         | table    | username
+ public | control_control_id_seq                                          | sequence | username
+ public | cv                                                              | table    | username
+ public | cv_cv_id_seq                                                    | sequence | username
+ public | cv_cvterm_count                                                 | view     | username
+ public | cv_cvterm_count_with_obs                                        | view     | username
+ public | cv_leaf                                                         | view     | username
+ public | cv_link_count                                                   | view     | username
+ public | cv_path_count                                                   | view     | username
+ public | cv_root                                                         | view     | username
+ public | cvprop                                                          | table    | username
+ public | cvprop_cvprop_id_seq                                            | sequence | username
+ public | cvterm                                                          | table    | username
+ public | cvterm_cvterm_id_seq                                            | sequence | username
+ public | cvterm_dbxref                                                   | table    | username
+ public | cvterm_dbxref_cvterm_dbxref_id_seq                              | sequence | username
+ public | cvterm_relationship                                             | table    | username
+ public | cvterm_relationship_cvterm_relationship_id_seq                  | sequence | username
+ public | cvtermpath                                                      | table    | username
+ public | cvtermpath_cvtermpath_id_seq                                    | sequence | username
+ public | cvtermprop                                                      | table    | username
+ public | cvtermprop_cvtermprop_id_seq                                    | sequence | username
+ public | cvtermsynonym                                                   | table    | username
+ public | cvtermsynonym_cvtermsynonym_id_seq                              | sequence | username
+ public | db                                                              | table    | username
+ public | db_db_id_seq                                                    | sequence | username
+ public | db_dbxref_count                                                 | view     | username
+ public | dbxref                                                          | table    | username
+ public | dbxref_dbxref_id_seq                                            | sequence | username
+ public | dbxrefprop                                                      | table    | username
+ public | dbxrefprop_dbxrefprop_id_seq                                    | sequence | username
+ public | dfeatureloc                                                     | view     | username
+ public | eimage                                                          | table    | username
+ public | eimage_eimage_id_seq                                            | sequence | username
+ public | element                                                         | table    | username
+ public | element_element_id_seq                                          | sequence | username
+ public | element_relationship                                            | table    | username
+ public | element_relationship_element_relationship_id_seq                | sequence | username
+ public | elementresult                                                   | table    | username
+ public | elementresult_elementresult_id_seq                              | sequence | username
+ public | elementresult_relationship                                      | table    | username
+ public | elementresult_relationship_elementresult_relationship_id_seq    | sequence | username
+ public | environment                                                     | table    | username
+ public | environment_cvterm                                              | table    | username
+ public | environment_cvterm_environment_cvterm_id_seq                    | sequence | username
+ public | environment_environment_id_seq                                  | sequence | username
+ public | expression                                                      | table    | username
+ public | expression_cvterm                                               | table    | username
+ public | expression_cvterm_expression_cvterm_id_seq                      | sequence | username
+ public | expression_cvtermprop                                           | table    | username
+ public | expression_cvtermprop_expression_cvtermprop_id_seq              | sequence | username
+ public | expression_expression_id_seq                                    | sequence | username
+ public | expression_image                                                | table    | username
+ public | expression_image_expression_image_id_seq                        | sequence | username
+ public | expression_pub                                                  | table    | username
+ public | expression_pub_expression_pub_id_seq                            | sequence | username
+ public | expressionprop                                                  | table    | username
+ public | expressionprop_expressionprop_id_seq                            | sequence | username
+ public | f_loc                                                           | view     | username
+ public | f_type                                                          | view     | username
+ public | feature                                                         | table    | username
+ public | feature_contains                                                | view     | username
+ public | feature_cvterm                                                  | table    | username
+ public | feature_cvterm_dbxref                                           | table    | username
+ public | feature_cvterm_dbxref_feature_cvterm_dbxref_id_seq              | sequence | username
+ public | feature_cvterm_feature_cvterm_id_seq                            | sequence | username
+ public | feature_cvterm_pub                                              | table    | username
+ public | feature_cvterm_pub_feature_cvterm_pub_id_seq                    | sequence | username
+ public | feature_cvtermprop                                              | table    | username
+ public | feature_cvtermprop_feature_cvtermprop_id_seq                    | sequence | username
+ public | feature_dbxref                                                  | table    | username
+ public | feature_dbxref_feature_dbxref_id_seq                            | sequence | username
+ public | feature_difference                                              | view     | username
+ public | feature_disjoint                                                | view     | username
+ public | feature_distance                                                | view     | username
+ public | feature_expression                                              | table    | username
+ public | feature_expression_feature_expression_id_seq                    | sequence | username
+ public | feature_expressionprop                                          | table    | username
+ public | feature_expressionprop_feature_expressionprop_id_seq            | sequence | username
+ public | feature_feature_id_seq                                          | sequence | username
+ public | feature_genotype                                                | table    | username
+ public | feature_genotype_feature_genotype_id_seq                        | sequence | username
+ public | feature_intersection                                            | view     | username
+ public | feature_meets                                                   | view     | username
+ public | feature_meets_on_same_strand                                    | view     | username
+ public | feature_phenotype                                               | table    | username
+ public | feature_phenotype_feature_phenotype_id_seq                      | sequence | username
+ public | feature_pub                                                     | table    | username
+ public | feature_pub_feature_pub_id_seq                                  | sequence | username
+ public | feature_pubprop                                                 | table    | username
+ public | feature_pubprop_feature_pubprop_id_seq                          | sequence | username
+ public | feature_relationship                                            | table    | username
+ public | feature_relationship_feature_relationship_id_seq                | sequence | username
+ public | feature_relationship_pub                                        | table    | username
+ public | feature_relationship_pub_feature_relationship_pub_id_seq        | sequence | username
+ public | feature_relationshipprop                                        | table    | username
+ public | feature_relationshipprop_feature_relationshipprop_id_seq        | sequence | username
+ public | feature_relationshipprop_pub                                    | table    | username
+ public | feature_relationshipprop_pub_feature_relationshipprop_pub_i_seq | sequence | username
+ public | feature_synonym                                                 | table    | username
+ public | feature_synonym_feature_synonym_id_seq                          | sequence | username
+ public | feature_union                                                   | view     | username
+ public | feature_uniquename_seq                                          | sequence | username
+ public | featureloc                                                      | table    | username
+ public | featureloc_featureloc_id_seq                                    | sequence | username
+ public | featureloc_pub                                                  | table    | username
+ public | featureloc_pub_featureloc_pub_id_seq                            | sequence | username
+ public | featuremap                                                      | table    | username
+ public | featuremap_featuremap_id_seq                                    | sequence | username
+ public | featuremap_pub                                                  | table    | username
+ public | featuremap_pub_featuremap_pub_id_seq                            | sequence | username
+ public | featurepos                                                      | table    | username
+ public | featurepos_featuremap_id_seq                                    | sequence | username
+ public | featurepos_featurepos_id_seq                                    | sequence | username
+ public | featureprop                                                     | table    | username
+ public | featureprop_featureprop_id_seq                                  | sequence | username
+ public | featureprop_pub                                                 | table    | username
+ public | featureprop_pub_featureprop_pub_id_seq                          | sequence | username
+ public | featurerange                                                    | table    | username
+ public | featurerange_featurerange_id_seq                                | sequence | username
+ public | featureset_meets                                                | view     | username
+ public | fnr_type                                                        | view     | username
+ public | fp_key                                                          | view     | username
+ public | genotype                                                        | table    | username
+ public | genotype_genotype_id_seq                                        | sequence | username
+ public | genotypeprop                                                    | table    | username
+ public | genotypeprop_genotypeprop_id_seq                                | sequence | username
+ public | gff3atts                                                        | view     | username
+ public | gff3view                                                        | view     | username
+ public | gffatts                                                         | view     | username
+ public | intron_combined_view                                            | view     | username
+ public | intronloc_view                                                  | view     | username
+ public | library                                                         | table    | username
+ public | library_cvterm                                                  | table    | username
+ public | library_cvterm_library_cvterm_id_seq                            | sequence | username
+ public | library_dbxref                                                  | table    | username
+ public | library_dbxref_library_dbxref_id_seq                            | sequence | username
+ public | library_feature                                                 | table    | username
+ public | library_feature_library_feature_id_seq                          | sequence | username
+ public | library_library_id_seq                                          | sequence | username
+ public | library_pub                                                     | table    | username
+ public | library_pub_library_pub_id_seq                                  | sequence | username
+ public | library_synonym                                                 | table    | username
+ public | library_synonym_library_synonym_id_seq                          | sequence | username
+ public | libraryprop                                                     | table    | username
+ public | libraryprop_libraryprop_id_seq                                  | sequence | username
+ public | libraryprop_pub                                                 | table    | username
+ public | libraryprop_pub_libraryprop_pub_id_seq                          | sequence | username
+ public | magedocumentation                                               | table    | username
+ public | magedocumentation_magedocumentation_id_seq                      | sequence | username
+ public | mageml                                                          | table    | username
+ public | mageml_mageml_id_seq                                            | sequence | username
+ public | nd_experiment                                                   | table    | username
+ public | nd_experiment_contact                                           | table    | username
+ public | nd_experiment_contact_nd_experiment_contact_id_seq              | sequence | username
+ public | nd_experiment_dbxref                                            | table    | username
+ public | nd_experiment_dbxref_nd_experiment_dbxref_id_seq                | sequence | username
+ public | nd_experiment_genotype                                          | table    | username
+ public | nd_experiment_genotype_nd_experiment_genotype_id_seq            | sequence | username
+ public | nd_experiment_nd_experiment_id_seq                              | sequence | username
+ public | nd_experiment_phenotype                                         | table    | username
+ public | nd_experiment_phenotype_nd_experiment_phenotype_id_seq          | sequence | username
+ public | nd_experiment_project                                           | table    | username
+ public | nd_experiment_project_nd_experiment_project_id_seq              | sequence | username
+ public | nd_experiment_protocol                                          | table    | username
+ public | nd_experiment_protocol_nd_experiment_protocol_id_seq            | sequence | username
+ public | nd_experiment_pub                                               | table    | username
+ public | nd_experiment_pub_nd_experiment_pub_id_seq                      | sequence | username
+ public | nd_experiment_stock                                             | table    | username
+ public | nd_experiment_stock_dbxref                                      | table    | username
+ public | nd_experiment_stock_dbxref_nd_experiment_stock_dbxref_id_seq    | sequence | username
+ public | nd_experiment_stock_nd_experiment_stock_id_seq                  | sequence | username
+ public | nd_experiment_stockprop                                         | table    | username
+ public | nd_experiment_stockprop_nd_experiment_stockprop_id_seq          | sequence | username
+ public | nd_experimentprop                                               | table    | username
+ public | nd_experimentprop_nd_experimentprop_id_seq                      | sequence | username
+ public | nd_geolocation                                                  | table    | username
+ public | nd_geolocation_nd_geolocation_id_seq                            | sequence | username
+ public | nd_geolocationprop                                              | table    | username
+ public | nd_geolocationprop_nd_geolocationprop_id_seq                    | sequence | username
+ public | nd_protocol                                                     | table    | username
+ public | nd_protocol_nd_protocol_id_seq                                  | sequence | username
+ public | nd_protocol_reagent                                             | table    | username
+ public | nd_protocol_reagent_nd_protocol_reagent_id_seq                  | sequence | username
+ public | nd_protocolprop                                                 | table    | username
+ public | nd_protocolprop_nd_protocolprop_id_seq                          | sequence | username
+ public | nd_reagent                                                      | table    | username
+ public | nd_reagent_nd_reagent_id_seq                                    | sequence | username
+ public | nd_reagent_relationship                                         | table    | username
+ public | nd_reagent_relationship_nd_reagent_relationship_id_seq          | sequence | username
+ public | nd_reagentprop                                                  | table    | username
+ public | nd_reagentprop_nd_reagentprop_id_seq                            | sequence | username
+ public | organism                                                        | table    | username
+ public | organism_dbxref                                                 | table    | username
+ public | organism_dbxref_organism_dbxref_id_seq                          | sequence | username
+ public | organism_organism_id_seq                                        | sequence | username
+ public | organismprop                                                    | table    | username
+ public | organismprop_organismprop_id_seq                                | sequence | username
+ public | phendesc                                                        | table    | username
+ public | phendesc_phendesc_id_seq                                        | sequence | username
+ public | phenotype                                                       | table    | username
+ public | phenotype_comparison                                            | table    | username
+ public | phenotype_comparison_cvterm                                     | table    | username
+ public | phenotype_comparison_cvterm_phenotype_comparison_cvterm_id_seq  | sequence | username
+ public | phenotype_comparison_phenotype_comparison_id_seq                | sequence | username
+ public | phenotype_cvterm                                                | table    | username
+ public | phenotype_cvterm_phenotype_cvterm_id_seq                        | sequence | username
+ public | phenotype_phenotype_id_seq                                      | sequence | username
+ public | phenstatement                                                   | table    | username
+ public | phenstatement_phenstatement_id_seq                              | sequence | username
+ public | phylonode                                                       | table    | username
+ public | phylonode_dbxref                                                | table    | username
+ public | phylonode_dbxref_phylonode_dbxref_id_seq                        | sequence | username
+ public | phylonode_organism                                              | table    | username
+ public | phylonode_organism_phylonode_organism_id_seq                    | sequence | username
+ public | phylonode_phylonode_id_seq                                      | sequence | username
+ public | phylonode_pub                                                   | table    | username
+ public | phylonode_pub_phylonode_pub_id_seq                              | sequence | username
+ public | phylonode_relationship                                          | table    | username
+ public | phylonode_relationship_phylonode_relationship_id_seq            | sequence | username
+ public | phylonodeprop                                                   | table    | username
+ public | phylonodeprop_phylonodeprop_id_seq                              | sequence | username
+ public | phylotree                                                       | table    | username
+ public | phylotree_phylotree_id_seq                                      | sequence | username
+ public | phylotree_pub                                                   | table    | username
+ public | phylotree_pub_phylotree_pub_id_seq                              | sequence | username
+ public | project                                                         | table    | username
+ public | project_contact                                                 | table    | username
+ public | project_contact_project_contact_id_seq                          | sequence | username
+ public | project_project_id_seq                                          | sequence | username
+ public | project_pub                                                     | table    | username
+ public | project_pub_project_pub_id_seq                                  | sequence | username
+ public | project_relationship                                            | table    | username
+ public | project_relationship_project_relationship_id_seq                | sequence | username
+ public | projectprop                                                     | table    | username
+ public | projectprop_projectprop_id_seq                                  | sequence | username
+ public | protein_coding_gene                                             | view     | username
+ public | protocol                                                        | table    | username
+ public | protocol_protocol_id_seq                                        | sequence | username
+ public | protocolparam                                                   | table    | username
+ public | protocolparam_protocolparam_id_seq                              | sequence | username
+ public | pub                                                             | table    | username
+ public | pub_dbxref                                                      | table    | username
+ public | pub_dbxref_pub_dbxref_id_seq                                    | sequence | username
+ public | pub_pub_id_seq                                                  | sequence | username
+ public | pub_relationship                                                | table    | username
+ public | pub_relationship_pub_relationship_id_seq                        | sequence | username
+ public | pubauthor                                                       | table    | username
+ public | pubauthor_pubauthor_id_seq                                      | sequence | username
+ public | pubprop                                                         | table    | username
+ public | pubprop_pubprop_id_seq                                          | sequence | username
+ public | quantification                                                  | table    | username
+ public | quantification_quantification_id_seq                            | sequence | username
+ public | quantification_relationship                                     | table    | username
+ public | quantification_relationship_quantification_relationship_id_seq  | sequence | username
+ public | quantificationprop                                              | table    | username
+ public | quantificationprop_quantificationprop_id_seq                    | sequence | username
+ public | stats_paths_to_root                                             | view     | username
+ public | stock                                                           | table    | username
+ public | stock_cvterm                                                    | table    | username
+ public | stock_cvterm_stock_cvterm_id_seq                                | sequence | username
+ public | stock_cvtermprop                                                | table    | username
+ public | stock_cvtermprop_stock_cvtermprop_id_seq                        | sequence | username
+ public | stock_dbxref                                                    | table    | username
+ public | stock_dbxref_stock_dbxref_id_seq                                | sequence | username
+ public | stock_dbxrefprop                                                | table    | username
+ public | stock_dbxrefprop_stock_dbxrefprop_id_seq                        | sequence | username
+ public | stock_genotype                                                  | table    | username
+ public | stock_genotype_stock_genotype_id_seq                            | sequence | username
+ public | stock_pub                                                       | table    | username
+ public | stock_pub_stock_pub_id_seq                                      | sequence | username
+ public | stock_relationship                                              | table    | username
+ public | stock_relationship_cvterm                                       | table    | username
+ public | stock_relationship_cvterm_stock_relationship_cvterm_id_seq      | sequence | username
+ public | stock_relationship_pub                                          | table    | username
+ public | stock_relationship_pub_stock_relationship_pub_id_seq            | sequence | username
+ public | stock_relationship_stock_relationship_id_seq                    | sequence | username
+ public | stock_stock_id_seq                                              | sequence | username
+ public | stockcollection                                                 | table    | username
+ public | stockcollection_stock                                           | table    | username
+ public | stockcollection_stock_stockcollection_stock_id_seq              | sequence | username
+ public | stockcollection_stockcollection_id_seq                          | sequence | username
+ public | stockcollectionprop                                             | table    | username
+ public | stockcollectionprop_stockcollectionprop_id_seq                  | sequence | username
+ public | stockprop                                                       | table    | username
+ public | stockprop_pub                                                   | table    | username
+ public | stockprop_pub_stockprop_pub_id_seq                              | sequence | username
+ public | stockprop_stockprop_id_seq                                      | sequence | username
+ public | study                                                           | table    | username
+ public | study_assay                                                     | table    | username
+ public | study_assay_study_assay_id_seq                                  | sequence | username
+ public | study_study_id_seq                                              | sequence | username
+ public | studydesign                                                     | table    | username
+ public | studydesign_studydesign_id_seq                                  | sequence | username
+ public | studydesignprop                                                 | table    | username
+ public | studydesignprop_studydesignprop_id_seq                          | sequence | username
+ public | studyfactor                                                     | table    | username
+ public | studyfactor_studyfactor_id_seq                                  | sequence | username
+ public | studyfactorvalue                                                | table    | username
+ public | studyfactorvalue_studyfactorvalue_id_seq                        | sequence | username
+ public | studyprop                                                       | table    | username
+ public | studyprop_feature                                               | table    | username
+ public | studyprop_feature_studyprop_feature_id_seq                      | sequence | username
+ public | studyprop_studyprop_id_seq                                      | sequence | username
+ public | synonym                                                         | table    | username
+ public | synonym_synonym_id_seq                                          | sequence | username
+ public | tableinfo                                                       | table    | username
+ public | tableinfo_tableinfo_id_seq                                      | sequence | username
+ public | treatment                                                       | table    | username
+ public | treatment_treatment_id_seq                                      | sequence | username
+ public | type_feature_count                                              | view     | username
+(380 rows)
+	```
+	I also created the testing database `dicty_chado` adding the [schema available on github](https://github.com/dictyBase/Test-Chado/blob/develop/share/chado.pg).
+	
+	
+- Other [GMOD PROJECTS](http://gmod.org/wiki/Downloads):
 
 
 
