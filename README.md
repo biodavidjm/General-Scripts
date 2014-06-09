@@ -50,6 +50,9 @@ Compilation of all the installations on a Mac OS X 10.9 (Mavericks).
 	PATH="/Applications/Postgres93.app/Contents/MacOS/bin:$PATH”
 and now I can run the commands for PostgrlSQL
 - Pgadmim (GUI)
+- [SchemaSpy](http://schemaspy.sourceforge.net/) is a tool to analyze database schemas
+	- it requires `brew install Graphviz`
+	- Run it like this: `java -jar schemaSpy_5.0.0.jar -t pgsql -host localhost:5432 -db music_djm -s public -u djt469 -o foldername -dp postgresql-9.3-1101.jdbc3.jar` 
 - Modware loader from github
 
 
@@ -571,7 +574,12 @@ I basically followed the steps explained in the [GMOD chado tutorial](http://gmo
 	- sudo cpanm Module::Starter
 	- sudo cpanm -n  git://github.com/dictyBase/Modware-Loader.git
 
-	**Do not install Test-Chado**
+#### Perl Packages
+It is better to install the packages locally in your home directory. This is a list of packages installed using `cpanm <package>`
+
+* `XML::Simple` to handle xml files
+* `Data::Dumper` to dump date (for example, date in the xml file)
+	
 	- Sqitch is a database change management application. Use it when planning to do changes in the database to keep track
 		- sudo cpanm App::Sqitch DBD::Pg
 * Perlbrew: cpanm App::perlbrew, although the best option is to follow the instructions [online](http://search.cpan.org/~gugod/App-perlbrew-0.67/lib/App/perlbrew.pm). I followed these steps:
@@ -588,6 +596,9 @@ I basically followed the steps explained in the [GMOD chado tutorial](http://gmo
     * perlbrew switch perl-5.12.2
     
     Perl version installed: 
+    - perl-5.18.2. Modules installed: 
+		* cpanm -n  git://github.com/dictyBase/Modware-Loader.git: Installing the dependencies failed: Module 'HTML::WikiConverter::MediaWiki' is not installed, Module 'Test::Chado' is not installed, Module 'Bio::Chado::Schema' is not installed, Module 'HTML::WikiConverter' is not installed. ! Bailing out the installation for Modware-Loader-v1.6.1. 96 distributions installed
+  	- perl-5.19.11
 ```
 
 
@@ -595,7 +606,6 @@ I basically followed the steps explained in the [GMOD chado tutorial](http://gmo
 	- cpanm Moose
 	- cpanm Moose::Manual
 
-- perl-5.18.2.tar.gz (locally)
 - Homebrew: it needed to install the Xcode. And using brew I installed:
 
 - RUBY: brew install ruby
