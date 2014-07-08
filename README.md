@@ -54,6 +54,7 @@ and now I can run the commands for PostgrlSQL
 	- it requires `brew install Graphviz`
 	- Run it like this: `java -jar schemaSpy_5.0.0.jar -t pgsql -host localhost:5432 -db music_djm -s public -u djt469 -o foldername -dp postgresql-9.3-1101.jdbc3.jar` 
 - Modware loader from github
+- **SchemaSpy**: SchemaSpy analyzes database metadata to reverse engineer dynamic Entity Relationship (ER) diagrams. I installed `schemaSpy_5.0.0.jar`. It also requires the drivers of the database. In this case, I also have available in the same directory: `postgresql-9.3-1101.jdbc3.jar`. Check README about how to run it in the /bin/schemaSpy5/ directory 
 
 
 ##### Installation of DBD::Oracle 
