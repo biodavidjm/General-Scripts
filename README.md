@@ -3,7 +3,16 @@ General-Scripts
 
 Scripts to provide punctual solutions to small problems
 
+* [Data Requested by users](#dare)
 
+* [Installation on the Mac](#inon)
+	* [General](#ge)
+	* [Database related](#darela)
+	* [Development](#de)
+		* [Perl related](#pere)
+		* [Others](#ot)
+
+<a name="dare"/>
 ## Data requested by users
 
 * ``update_curated_mutant_with_ddbg_id.pl``:
@@ -11,13 +20,13 @@ Scripts to provide punctual solutions to small problems
 updates the all-mutants.txt file from the ___Download___ section of the dictyweb with an additional column mapping the DDB_G_ID from the list of genes found in column 3. 
 
 
-
+<a name="inon"/>
 ## Installations on the Mac
 by @biodavidjm
 
 Compilation of all the installations on a Mac OS X 10.9 (Mavericks).
 
-
+<a name="ge"/>
 ### General
 
 - iTerm 2
@@ -39,6 +48,7 @@ Compilation of all the installations on a Mac OS X 10.9 (Mavericks).
 - Pandoc
 - MAMP
 
+<a name="darela"/>
 ### Database related
 - Oracle SQL Developer: it required to create an account to be able to download the app.
 
@@ -566,9 +576,10 @@ I basically followed the steps explained in the [GMOD chado tutorial](http://gmo
 - Other [GMOD PROJECTS](http://gmod.org/wiki/Downloads):
 
 
-
+<a name="de"/>
 ### Development
 
+<a name="pere"/>
 #### Perl related
 * Absolutely avoid using Perl from the Mac OS X system is a mandatory step. In order to use other Perl version, or to control the Perl versions, use `perlbrew`, for example.
 
@@ -630,6 +641,7 @@ Some useful perl packages that you can install using `cpanm <package>`
 	- `Moose`
 	- `Moose::Manual`
 
+<a name="ot"/>
 #### Others (no Perl related)
 - `Homebrew`: it needed to install the Xcode. And using brew I installed:
 
