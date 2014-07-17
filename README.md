@@ -568,22 +568,11 @@ I basically followed the steps explained in the [GMOD chado tutorial](http://gmo
 
 
 ### Development
-- Perl CPAN (but it is better to use cpanm)
-- Perl cpanm (it is better to use.
-	- sudo cpanm Modern::Perl
-	- sudo cpanm plenv: PLENV sets up a box environment. It basically isolates your home from the system.
-	- sudo cpanm Module::Starter
-	- sudo cpanm -n  git://github.com/dictyBase/Modware-Loader.git
 
-#### Perl Packages
-It is better to install the packages locally in your home directory. This is a list of packages installed using `cpanm <package>`
+#### Perl related
+* Absolutely avoid using Perl from the Mac OS X system is a mandatory step. In order to use other Perl version, or to control the Perl versions, use `perlbrew`, for example.
 
-* `XML::Simple` to handle xml files
-* `Data::Dumper` to dump date (for example, date in the xml file)
-	
-	- Sqitch is a database change management application. Use it when planning to do changes in the database to keep track
-		- sudo cpanm App::Sqitch DBD::Pg
-* Perlbrew: cpanm App::perlbrew, although the best option is to follow the instructions [online](http://search.cpan.org/~gugod/App-perlbrew-0.67/lib/App/perlbrew.pm). I followed these steps:
+* `Perlbrew`: follow the instructions [online](http://search.cpan.org/~gugod/App-perlbrew-0.67/lib/App/perlbrew.pm). I followed these steps:
 
 ```
 	* curl -kL http://install.perlbrew.pl | bash
@@ -597,17 +586,52 @@ It is better to install the packages locally in your home directory. This is a l
     * perlbrew switch perl-5.12.2
     
     Perl version installed: 
-    - perl-5.18.2. Modules installed: 
-		* cpanm -n  git://github.com/dictyBase/Modware-Loader.git: Installing the dependencies failed: Module 'HTML::WikiConverter::MediaWiki' is not installed, Module 'Test::Chado' is not installed, Module 'Bio::Chado::Schema' is not installed, Module 'HTML::WikiConverter' is not installed. ! Bailing out the installation for Modware-Loader-v1.6.1. 96 distributions installed
+    - perl-5.18.2
   	- perl-5.19.11
 ```
 
+* `cpanm`: Once `perlbrew` is installed, is absolutely essential to install `cpanm` running `perlbrew install-cpanm`. Use it to install libraries 
 
+To install cpanm libraries you can install it:
+
+* In Your home available to any perl project. Then just run `cpanm <package>`
+
+* In a library specially created for every perl project, and this perl project will only use this library. This is done with `local::lib`, which is the package that allows the possibility of managing library packages for a particular project. But the way to install and use local::lib is through `cpanm`. Follow these steps to make sure you are doing the right thing:
+	* First, make sure that `cpanm` is installed on the system (if you do, `brew remove cpanm`)
+	* `perl -V` tells you which perl version and libraries you are using
+Libraries are installed using.
+	* Create the project folder (`ejemplo`) && cd
+	* Create the perl library associated to that perl project: `perlbrew lib create ejemplo`. The message `lib 'perl-5.19.11@ejemplo' is created.` is prompted, which specify the perl version under which you are installing the library.
+	* **IN EVERY SHELL** the library for that particular project MUST BE specified executing `perlbrew use perl-5.19.11@ejemplo`. Whatever perl library you know install using `cpanm` will be available only in this shell and in the perl scripts that you might run there. But first, make sure that you are truly using that perl library by doing `perl -V` and paying attention to the following line:
+	
+		```
+		@INC:
+		/Users/djt469/.perlbrew/libs/perl-5.19.11@ejemplo/lib/perl5
+		/Users/djt469/perl5/lib/perl5    
+		```
+	* Install a package, eg:`cpanm Acme::Time::Baby`
+	* Test that it works only in this shell: `perl -MAcme::Time::Baby -E 'say babytime'` if you try in other shells, with the other libraries, it won't work.
+	
+In conclusion: `perlbrew` helps you managing the libraries for every particular project and according to some particular perl version. It helps managing `local::lib` for you. Otherwise, you would need to do almost everything by hand and the libraries would have to be installed in a folder `lib` in your `project` directory. 
+	
+
+##### Perl Packages
+Use `cpanm`, but associated to every perl version that you are managing with `perlbrew`, as explained above. Anyway, it is better to install the packages locally in your home directory. 
+
+Some useful perl packages that you can install using `cpanm <package>`
+
+* `XML::Simple` to handle xml files
+* `Data::Dumper` to dump date (for example, date in the xml file)
+* `DBIx::Class::Schema::Loader` 
+* `Sqitch` is a database change management application. Use it when planning to do changes in the database to keep track
+		- cpanm App::Sqitch DBD::Pg
+		
 * Perl Object Oriented related
-	- cpanm Moose
-	- cpanm Moose::Manual
+	- `Moose`
+	- `Moose::Manual`
 
-- Homebrew: it needed to install the Xcode. And using brew I installed:
+#### Others (no Perl related)
+- `Homebrew`: it needed to install the Xcode. And using brew I installed:
 
 - RUBY: brew install ruby
 - GO programming language: brew install go
@@ -619,7 +643,7 @@ It is better to install the packages locally in your home directory. This is a l
 - Sass: sudo gem install sass
 - Hydo: HTML5 editor
 
-### Web development
+#### Web development
 
 - I TRIED to install Gumby framework (a grid system application for web design):
 	- Install RVM, the Ruby Version Manager.
