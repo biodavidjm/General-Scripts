@@ -53,6 +53,8 @@ Compilation of all the installations on a Mac OS X 10.9 (Mavericks).
 	- Ubuntu serve
 	- Windows 7
 	- Widhows 8.1 
+	
+- Circos on Ubuntu: I basically followed the steps [described here](http://kylase.github.io/CircosAPI/circos-on-linux-virtual-machine/), but the only difference is the step of installing the damn libgd library, which requires this command instead: `sudo apt-get -y install libgd2-xpm-dev build-essential`... so now it works in both ubuntu desktop and 
 
 <a name="de"/>
 ### Development
