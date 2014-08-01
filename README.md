@@ -7,10 +7,10 @@ Scripts to provide punctual solutions to small problems
 
 * [Installation on the Mac](#inon)
 	* [General](#ge)
-	* [Database related](#darela)
 	* [Development](#de)
 		* [Perl related](#pere)
 		* [Others](#ot)
+	* [Database related](#darela)
 
 <a name="dare"/>
 ## Data requested by users
@@ -47,6 +47,112 @@ Compilation of all the installations on a Mac OS X 10.9 (Mavericks).
 - MacTeX
 - Pandoc
 - MAMP
+- ncbi-blast-2.2.29+.dmg 255 MB	1/6/14 12:00:00 AM
+- VirtualBox (already installed): Operating systems available (e.g., for web development testing)
+	- Ubuntu Desktop
+	- Ubuntu serve
+	- Windows 7
+	- Widhows 8.1 
+
+<a name="de"/>
+### Development
+
+<a name="pere"/>
+#### Perl related
+* Absolutely avoid using Perl from the Mac OS X system is a mandatory step. In order to use other Perl version, or to control the Perl versions, use `perlbrew`, for example.
+
+* `Perlbrew`: follow the instructions [online](http://search.cpan.org/~gugod/App-perlbrew-0.67/lib/App/perlbrew.pm). I followed these steps:
+
+```
+	* curl -kL http://install.perlbrew.pl | bash
+	* perlbrew init
+	* perlbrew available
+	* perlbrew install perl-5.19.11 (**it took a while**)
+	* perlbrew list (check what is installed)
+	* perlbrew switch perl-5.12.2 (Switch perl in the $PATH) + perl -v
+    * perlbrew use perl-5.8.1 (Temporarily use another version only in current shell) + perl -v
+    * perlbrew off (Turn it off completely. Useful when you messed up too deep. Or want to go back to the system Perl)
+    * perlbrew switch perl-5.12.2
+    
+    Perl version installed: 
+    - perl-5.18.2
+  	- perl-5.19.11
+```
+
+* `cpanm`: Once `perlbrew` is installed, is absolutely essential to install `cpanm` running `perlbrew install-cpanm`. Use it to install libraries 
+
+To install cpanm libraries you can install it:
+
+* In Your home available to any perl project. Then just run `cpanm <package>`
+
+* In a library specially created for every perl project, and this perl project will only use this library. This is done with `local::lib`, which is the package that allows the possibility of managing library packages for a particular project. But the way to install and use local::lib is through `cpanm`. Follow these steps to make sure you are doing the right thing:
+	* First, make sure that `cpanm` is installed on the system (if you do, `brew remove cpanm`)
+	* `perl -V` tells you which perl version and libraries you are using
+Libraries are installed using.
+	* Create the project folder (`ejemplo`) && cd
+	* Create the perl library associated to that perl project: `perlbrew lib create ejemplo`. The message `lib 'perl-5.19.11@ejemplo' is created.` is prompted, which specify the perl version under which you are installing the library.
+	* **IN EVERY SHELL** the library for that particular project MUST BE specified executing `perlbrew use perl-5.19.11@ejemplo`. Whatever perl library you know install using `cpanm` will be available only in this shell and in the perl scripts that you might run there. But first, make sure that you are truly using that perl library by doing `perl -V` and paying attention to the following line:
+	
+		```
+		@INC:
+		/Users/djt469/.perlbrew/libs/perl-5.19.11@ejemplo/lib/perl5
+		/Users/djt469/perl5/lib/perl5    
+		```
+	* Install a package, eg:`cpanm Acme::Time::Baby`
+	* Test that it works only in this shell: `perl -MAcme::Time::Baby -E 'say babytime'` if you try in other shells, with the other libraries, it won't work.
+	
+In conclusion: `perlbrew` helps you managing the libraries for every particular project and according to some particular perl version. It helps managing `local::lib` for you. Otherwise, you would need to do almost everything by hand and the libraries would have to be installed in a folder `lib` in your `project` directory. 
+	
+
+##### Perl Packages
+Use `cpanm`, but associated to every perl version that you are managing with `perlbrew`, as explained above. Anyway, it is better to install the packages locally in your home directory. 
+
+Some useful perl packages that you can install using `cpanm <package>`
+
+* `Devel::Cover`
+* `PPI::HTML, Test::Differences, Parallel::Iterator, JSON::XS`required by `Devel::Cover` (check the manual)
+* `XML::Simple` to handle xml files
+* `Data::Dumper` to dump date (for example, date in the xml file)
+* `DBIx::Class::Schema::Loader` 
+* `Sqitch` is a database change management application. Use it when planning to do changes in the database to keep track
+		- cpanm App::Sqitch DBD::Pg
+		
+* Perl Object Oriented related
+	- `Moose`
+	- `Moose::Manual`
+
+
+<a name="ot"/>
+#### Others (no Perl related)
+- Xcode
+	- Command line Tools: I needed to subscribe first as a Mac developer.
+- `Homebrew`: it needed to install the Xcode. And using brew I installed:
+
+- RUBY: brew install ruby
+- GO programming language: brew install go
+- Github for Mac
+- Vagrant: to manage virtual Linux from the command line. It uses VirtualBox (already installed) in the computer.
+- npm, the official package manager for Node.js. (brew install)
+	- npm install -g yo
+- Sass: sudo gem install sass
+- Hydo: HTML5 editor
+
+#### Web development
+
+- I TRIED to install Gumby framework (a grid system application for web design):
+	- Install RVM, the Ruby Version Manager.
+	- curl -L https://get.rvm.io | bash -s stable --ruby
+	- Install gem dependencies (Gumby utilizes modular-scale, Compass and Sass)
+sass-3.2.19
+	- chunky_png-1.3.0
+	- fssm-0.2.10
+		- compass-0.12.5.gem (100%)
+ 	- Done installing documentation for chunky_png, compass, fssm, sass
+modular-scale-2.0.5
+	- Documentation for modular-scale-2.0.5
+- sass-3.3.5
+	- Documentation for sass-3.3.5
+	
 
 <a name="darela"/>
 ### Database related
@@ -574,99 +680,3 @@ I basically followed the steps explained in the [GMOD chado tutorial](http://gmo
 	
 	
 - Other [GMOD PROJECTS](http://gmod.org/wiki/Downloads):
-
-
-<a name="de"/>
-### Development
-
-<a name="pere"/>
-#### Perl related
-* Absolutely avoid using Perl from the Mac OS X system is a mandatory step. In order to use other Perl version, or to control the Perl versions, use `perlbrew`, for example.
-
-* `Perlbrew`: follow the instructions [online](http://search.cpan.org/~gugod/App-perlbrew-0.67/lib/App/perlbrew.pm). I followed these steps:
-
-```
-	* curl -kL http://install.perlbrew.pl | bash
-	* perlbrew init
-	* perlbrew available
-	* perlbrew install perl-5.19.11 (**it took a while**)
-	* perlbrew list (check what is installed)
-	* perlbrew switch perl-5.12.2 (Switch perl in the $PATH) + perl -v
-    * perlbrew use perl-5.8.1 (Temporarily use another version only in current shell) + perl -v
-    * perlbrew off (Turn it off completely. Useful when you messed up too deep. Or want to go back to the system Perl)
-    * perlbrew switch perl-5.12.2
-    
-    Perl version installed: 
-    - perl-5.18.2
-  	- perl-5.19.11
-```
-
-* `cpanm`: Once `perlbrew` is installed, is absolutely essential to install `cpanm` running `perlbrew install-cpanm`. Use it to install libraries 
-
-To install cpanm libraries you can install it:
-
-* In Your home available to any perl project. Then just run `cpanm <package>`
-
-* In a library specially created for every perl project, and this perl project will only use this library. This is done with `local::lib`, which is the package that allows the possibility of managing library packages for a particular project. But the way to install and use local::lib is through `cpanm`. Follow these steps to make sure you are doing the right thing:
-	* First, make sure that `cpanm` is installed on the system (if you do, `brew remove cpanm`)
-	* `perl -V` tells you which perl version and libraries you are using
-Libraries are installed using.
-	* Create the project folder (`ejemplo`) && cd
-	* Create the perl library associated to that perl project: `perlbrew lib create ejemplo`. The message `lib 'perl-5.19.11@ejemplo' is created.` is prompted, which specify the perl version under which you are installing the library.
-	* **IN EVERY SHELL** the library for that particular project MUST BE specified executing `perlbrew use perl-5.19.11@ejemplo`. Whatever perl library you know install using `cpanm` will be available only in this shell and in the perl scripts that you might run there. But first, make sure that you are truly using that perl library by doing `perl -V` and paying attention to the following line:
-	
-		```
-		@INC:
-		/Users/djt469/.perlbrew/libs/perl-5.19.11@ejemplo/lib/perl5
-		/Users/djt469/perl5/lib/perl5    
-		```
-	* Install a package, eg:`cpanm Acme::Time::Baby`
-	* Test that it works only in this shell: `perl -MAcme::Time::Baby -E 'say babytime'` if you try in other shells, with the other libraries, it won't work.
-	
-In conclusion: `perlbrew` helps you managing the libraries for every particular project and according to some particular perl version. It helps managing `local::lib` for you. Otherwise, you would need to do almost everything by hand and the libraries would have to be installed in a folder `lib` in your `project` directory. 
-	
-
-##### Perl Packages
-Use `cpanm`, but associated to every perl version that you are managing with `perlbrew`, as explained above. Anyway, it is better to install the packages locally in your home directory. 
-
-Some useful perl packages that you can install using `cpanm <package>`
-
-* `XML::Simple` to handle xml files
-* `Data::Dumper` to dump date (for example, date in the xml file)
-* `DBIx::Class::Schema::Loader` 
-* `Sqitch` is a database change management application. Use it when planning to do changes in the database to keep track
-		- cpanm App::Sqitch DBD::Pg
-		
-* Perl Object Oriented related
-	- `Moose`
-	- `Moose::Manual`
-
-<a name="ot"/>
-#### Others (no Perl related)
-- `Homebrew`: it needed to install the Xcode. And using brew I installed:
-
-- RUBY: brew install ruby
-- GO programming language: brew install go
-- Github for Mac
-- Vagrant: to manage virtual Linux from the command line. It uses VirtualBox (already installed) in the computer.
-
-- npm, the official package manager for Node.js. (brew install)
-	- npm install -g yo
-- Sass: sudo gem install sass
-- Hydo: HTML5 editor
-
-#### Web development
-
-- I TRIED to install Gumby framework (a grid system application for web design):
-	- Install RVM, the Ruby Version Manager.
-	- curl -L https://get.rvm.io | bash -s stable --ruby
-	- Install gem dependencies (Gumby utilizes modular-scale, Compass and Sass)
-sass-3.2.19
-	- chunky_png-1.3.0
-	- fssm-0.2.10
-		- compass-0.12.5.gem (100%)
- 	- Done installing documentation for chunky_png, compass, fssm, sass
-modular-scale-2.0.5
-	- Documentation for modular-scale-2.0.5
-- sass-3.3.5
-	- Documentation for sass-3.3.5
