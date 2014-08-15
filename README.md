@@ -29,6 +29,7 @@ Compilation of all the installations on a Mac OS X 10.9 (Mavericks).
 <a name="ge"/>
 ### General
 
+- AMPAgent. Northwestern spy
 - iTerm 2
 - CoRD: a Mac OS X remote desktop client for Microsoft Windows
 - Cisco AnyConnect Secure Mobility Client (VPN)
