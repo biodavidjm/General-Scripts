@@ -137,6 +137,16 @@ Some useful perl packages that you can install using `cpanm <package>`
 - Vagrant: to manage virtual Linux from the command line. It uses VirtualBox (already installed) in the computer.
 - npm, the official package manager for Node.js. (brew install)
 	- npm install -g yo
+	PROBLEMS here: I decided to install node from the web and I screwed it up> I did it without thinking just following some tutorial and I didn't realize what I was doing. This generated a big mess in my Mac, so I have so start all over again following advices. Steps:
+		- Uninstall: 
+			- `sudo npm uninstall npm -g`
+			- `sudo rm -rf /usr/local/lib/node \ /usr/local/lib/node_modules \ /var/db/receipts/org.nodejs.*`
+			- brew rm node
+			- brew doctor: and remove everything the doctor tells you to delete!
+			- Remove the .npm and .npmr folder and files located at your home directory.
+			- brew install node
+			
+		
 - Sass: sudo gem install sass
 - Hydo: HTML5 editor
 
