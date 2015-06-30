@@ -61,25 +61,8 @@ while ( my $line = <$in_fh> ) {
     }
 }
 
-exit;
 
-sub get_path {
-    my @tries = @_;
-    my $good_path;
-    for my $try_path ( @tries ) {
-    if( -e $try_path and -d _ and -w _ ) {          # Path exists. Done.
-      $good_path = $try_path;
-      last;
-    }
-    elsif( eval { make_path( $try_path ); 1; } ) {  # Try to create it.
-      $good_path = $try_path;                       # Success, we're done.
-      last;
-    }
-    }
-    # Failure; fall through to next iteration.  
-    # If no more options, loop ends with $path undefined.
-    return $good_path;
-}
+exit;
 
 =head1 NAME
 
