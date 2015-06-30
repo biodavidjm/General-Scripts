@@ -26,12 +26,13 @@ die "---> Hey!!! "
     . " does not have the 'html' extension. Why not?\n"
     if ( $filename !~ /.*\.html/ );
 
-my $output_filename = "ajs-".$filename;
+
 
 open my $in_fh, '<', $filename
     or die "Sorry, but I cannot open '$filename'!\n";
 
-open my $out_fh, '+>', $output_filename or die $!;
+my $output_filename = "ajs-".$filename;
+# open my $out_fh, '+>', $output_filename or die $!;
 
 my $count = 0;
 my $flag_head = 0;
@@ -39,11 +40,20 @@ my $flag_head = 0;
 # # Mapping systematic name to many Associated Genes
 while ( my $line = <$in_fh> ) {
     chomp($line);
+    # Remove doctype label
     if ( $line =~ /^\s{0,}<!DOCTYPE/ ) 
     { 
         say "DELETE: " . $line; 
         next; 
     }
+
+    # Remove html tag
+    if ( ($line =~ /^\s{0,}<html/ ) || ($line =~ /^\s{0,}<\/html/ ) ) 
+    {
+        say "DELETE: " . $line;
+        next;
+    }
+    # Comment out <head> tag
     if ($line =~ /^\s{0,}<head/ ) 
     {
         say "#".$line;
@@ -53,12 +63,29 @@ while ( my $line = <$in_fh> ) {
     if ( ($flag_head) && ($line !~ /^\s{0,}<\/head/ ) )
     {
         say "#".$line;
+        next;
     }
     if ( ($flag_head) && ($line =~ /^\s{0,}<\/head/ ) )
     {
         say "#".$line;
         $flag_head = 0; 
+        next;
     }
+    # Replacing anchoring for the angular version
+    if ( $line =~ /<a href="#(\S+)">/)
+    {
+        my $anchor = $1;
+        # say $line . " ----> ".$anchor;
+        $line =~ s/href="#(\S+)">/ng\-click='($anchor)'>/;
+        # say "\t" . $line;
+    }
+    # Replacing <a href="/techniques
+    if ( $line =~ /<a href=\"\/techniques/)
+    {
+        $line =~ s/<a href=\"\/techniques/<a ng\-href="#\/research\/techniques/;
+        say $line;
+    }
+    
 }
 
 
