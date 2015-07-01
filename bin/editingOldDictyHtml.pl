@@ -10,6 +10,7 @@ use autodie qw/open close/;
 # Deal with files
 use FindBin;
 use File::Path qw( make_path );
+use File::Copy qw(move);
 
 # Validation section
 my $script = "editOldDictyHtml.pl";
@@ -26,8 +27,6 @@ die "---> Hey!!! "
     . " does not have the 'html' extension. Why not?\n"
     if ( $filename !~ /.*\.html/ );
 
-
-
 open my $in_fh, '<', $filename
     or die "Sorry, but I cannot open '$filename'!\n";
 
@@ -40,6 +39,23 @@ my $flag_head = 0;
 # # Mapping systematic name to many Associated Genes
 while ( my $line = <$in_fh> ) {
     chomp($line);
+    # Remove includes <!--#include virtual
+
+    if ( $line =~ /<\!--#include virtual/ ) 
+    { 
+        if ( $line =~ /<!--#include virtual="\/inc\/page-layout-bottom.html"-->/)
+        {
+            $line =~ s/<!--#include virtual="\/inc\/page-layout-bottom.html"-->//;
+            say "DELETE: " . $line; 
+            next;
+        }
+        else
+        {
+            say "DELETE: " . $line; 
+            next; 
+        }
+    }
+
     # Remove doctype label
     if ( $line =~ /^\s{0,}<!DOCTYPE/ ) 
     { 
@@ -85,11 +101,23 @@ while ( my $line = <$in_fh> ) {
         $line =~ s/<a href=\"\/techniques/<a ng\-href="#\/research\/techniques/;
         say $line;
     }
+    # Add right route to imgs
+    if ( $line =~ /<img(.*?)src=\"\/techniques/ )
+    {
+        $line =~ s/src=\"\/techniques/src=\"views\/techniques/;
+        say $line;
+    }
+    if ( $line =~ /<img(.*?)src=\"images/ )
+    {
+        $line =~ s/src=\"\/techniques/src=\"views\/techniques/;
+        say $line;
+    }
     
 }
 
-
 exit;
+
+
 
 =head1 NAME
 
