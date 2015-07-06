@@ -10,6 +10,7 @@ use autodie qw/open close/;
 # Deal with files
 use File::Path qw( make_path );
 use File::Copy qw(copy);
+use File::Copy qw(move);
 
 # Validation section
 my $script = "editOldDictyHtml.pl";
@@ -27,13 +28,19 @@ die "---> Hey!!! "
     if ( $filename !~ /.*\.html/ );
 
 # Copy the file in a folder
-my $newDirectory = 'originalHTMLs';
+my $newDirectory = 'originals';
 my $path;
 
+# create the folder if it does not exist
 if ( not defined( $path = get_path( "$newDirectory", "./$newDirectory" ) ) ) {
     die "Unable to find or create a suitable directory for output file.";
 }
 
+# Check whether the file already exists there
+my $checking = "$path/$filename";
+die "$checking exits already. Please, solve the conflict before running this script again!\n" if -e $checking;
+
+# Copy the original file there if it does not exist already
 my $copy_filename = "$path/$filename";
 copy( $filename, $copy_filename ) or die "Copy failed: $!";
 
@@ -42,9 +49,9 @@ open my $in_fh, '<', $filename
     or die "\nCannot open file \"$filename\"\n";
 
 # Open output
-my $output = "temp-" . $filename;
-open my $out_fh, '>', $output
-    or die "\nCannot open file \"$output\"\n";
+my $tempout = "temp-" . $filename;
+open my $out_fh, '>', $tempout
+    or die "\nCannot create file \"$tempout\"\n";
 
 # Parsing the FILE:
 my $flag_head = 0;
@@ -132,6 +139,11 @@ while (my $line = <$in_fh>)
     say {$out_fh} $line;
 }
 
+close $in_fh;
+close $out_fh;
+
+move $tempout, $filename;
+
 exit;
 
 sub get_path {
@@ -163,7 +175,33 @@ perl editOldDictyHtml.pl filename.html
 
 =head1 OUTPUT
 
-processed/filename.html Process the files to a new folder
+=over
 
-=head1 DESCRIPTION 
+- The input html file modified
+
+- The original version of the file in the folder B</originals>
+
+=back
+
+=head1 DESCRIPTION
+
+The script parses html files and transform them in AngularJS views:
+
+=over
+
+- Removes the previous dicty C<includes>
+
+- Removes C<DOCTYPE> tag
+
+- Removes C<html> tag
+
+- Comment out the C<head> section
+
+- Replaces html anchors by Angular anchors, i.e., B<href="#anchor"> by B<ng-click='($anchor)'>) 
+
+- Replaces B<href="/techniques/.."> by B<ng-href="#/research/techniques/...">
+
+- Right path for B=<img> tags
+
+=back
 
