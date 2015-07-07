@@ -63,58 +63,65 @@ while (my $line = <$in_fh>)
         if ( $line =~ /<!--#include virtual="\/inc\/page-layout-bottom.html"-->/ )
         {
             $line =~ s/<!--#include virtual="\/inc\/page-layout-bottom.html"-->//;
-            say "MODIFY: " . $line;
             say {$out_fh} $line;
             next;
         }
         else {
-            say "DELETE: " . $line;
             next;
         }
     }
 
     # Remove doctype label
     if ( $line =~ /^\s{0,}<!DOCTYPE/ ) {
-        say "DELETE: " . $line;
         next;
     }
 
     # Remove html tag
-    if ( ( $line =~ /^\s{0,}<html/ ) || ( $line =~ /^\s{0,}<\/html/ ) ) {
-        say "DELETE: " . $line;
+    if ( $line =~ /^\s{0,}<html/ ) {
+        next;
+    }
+    if ( $line =~ /^\s{0,}<\/html/ ) {
         next;
     }
 
     # Comment out <head> tag
     if ( $line =~ /^\s{0,}<head/ ) {
-        say {$out_fh} "#" . $line;
+        say {$out_fh} "<!-- ";
+        say {$out_fh} $line;
         $flag_head = 1;
         next;
     }
     if ( ($flag_head) && ( $line !~ /^\s{0,}<\/head/ ) ) {
-        say {$out_fh} "#" . $line;
+        say {$out_fh} $line;
         next;
     }
     if ( ($flag_head) && ( $line =~ /^\s{0,}<\/head/ ) ) {
-        say {$out_fh} "#" . $line;
+        say {$out_fh} $line;
+        say {$out_fh} " -->";
         $flag_head = 0;
         next;
     }
 
-    # Replacing anchoring for the angular version
-    if ( $line =~ /<a href="#(\S+)">/ ) {
-        my $anchor = $1;
-        $line =~ s/href="#(\S+)">/ng\-click='($anchor)'>/;
-        say {$out_fh} $line;
+    if ( ( $line =~ /<body>/ ) || ( $line =~ /<\/body>/ )  )
+    {
         next;
     }
 
-    # Replacing <a href="/techniques
-    if ( $line =~ /<a href=\"\/techniques/ ) {
-        $line
-            =~ s/<a href=\"\/techniques/<a ng\-href="#\/research\/techniques/;
-        say {$out_fh} $line;
-        next;
+    # Replacing anchoring for the angular version and  <a href="/techniques
+    # Both can happen in the same line
+    if ( ( $line =~ /<a href=\"\/techniques/ ) || ( $line =~ /<a href="#(\S+)">/ ) ) {
+        
+        if ( $line =~ /<a href="#(\S+)">/ )
+        {
+            my $anchor = $1;
+            $line =~ s/href="#(\S+)">/href="" ng-click="scrollTo('$anchor')">/;
+        }
+        if ( $line =~ /<a href=\"\/techniques/ )
+        {
+            $line =~ s/<a href=\"\/techniques/<a ng\-href="#\/research\/techniques/;
+            say {$out_fh} $line;
+            next;
+        }
     }
 
     # Add right route to imgs
@@ -122,17 +129,14 @@ while (my $line = <$in_fh>)
         if ( $line =~ /<img(.*?)src=\"\/techniques/ ) {
             $line =~ s/src=\"\/techniques/src=\"views\/techniques/;
             say {$out_fh} $line;
-            next;
         }
         elsif ( $line =~ /<img(.*?)src="images/ ) {
             $line =~ s/src="images/src="views\/techniques\/images/;
             say {$out_fh} $line;
-            next;
         }
         else {
             say "WARNING: check out this link " . $line;
             say {$out_fh} $line;
-            next;
         }
     }
     # If nothing is found from all of the above... print it to the file
@@ -143,6 +147,8 @@ close $in_fh;
 close $out_fh;
 
 move $tempout, $filename;
+
+say $filename . " processed successfully";
 
 exit;
 
