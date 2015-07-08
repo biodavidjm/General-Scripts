@@ -66,6 +66,12 @@ while (my $line = <$in_fh>)
             say {$out_fh} $line;
             next;
         }
+        elsif ( $line =~ /<!--#include virtual="\/inc\/footer_withSide.html"-->/ )
+        {
+            $line =~ s/<!--#include virtual="\/inc\/footer_withSide.html"-->//;
+            say {$out_fh} $line;
+            next;
+        }
         else {
             next;
         }
@@ -86,18 +92,18 @@ while (my $line = <$in_fh>)
 
     # Comment out <head> tag
     if ( $line =~ /^\s{0,}<head/ ) {
-        say {$out_fh} "<!-- ";
-        say {$out_fh} $line;
+        # say {$out_fh} "<!-- ";
+        # say {$out_fh} $line;
         $flag_head = 1;
         next;
     }
     if ( ($flag_head) && ( $line !~ /^\s{0,}<\/head/ ) ) {
-        say {$out_fh} $line;
+        # say {$out_fh} $line;
         next;
     }
     if ( ($flag_head) && ( $line =~ /^\s{0,}<\/head/ ) ) {
-        say {$out_fh} $line;
-        say {$out_fh} " -->";
+        # say {$out_fh} $line;
+        # say {$out_fh} " -->";
         $flag_head = 0;
         next;
     }
@@ -129,14 +135,17 @@ while (my $line = <$in_fh>)
         if ( $line =~ /<img(.*?)src=\"\/techniques/ ) {
             $line =~ s/src=\"\/techniques/src=\"views\/techniques/;
             say {$out_fh} $line;
+            next;
         }
         elsif ( $line =~ /<img(.*?)src="images/ ) {
             $line =~ s/src="images/src="views\/techniques\/images/;
             say {$out_fh} $line;
+            next;
         }
         else {
             say "WARNING: check out this link " . $line;
             say {$out_fh} $line;
+            next;
         }
     }
     # If nothing is found from all of the above... print it to the file
@@ -201,7 +210,7 @@ The script parses html files and transform them in AngularJS views:
 
 - Removes C<html> tag
 
-- Comment out the C<head> section
+- Removes out the C<head> section
 
 - Replaces html anchors by Angular anchors, i.e., B<href="#anchor"> by B<ng-click='($anchor)'>) 
 
