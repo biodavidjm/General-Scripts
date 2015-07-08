@@ -133,12 +133,12 @@ while (my $line = <$in_fh>)
     # Add right route to imgs
     if ( $line =~ /<img(.*?)src/ ) {
         if ( $line =~ /<img(.*?)src=\"\/techniques/ ) {
-            $line =~ s/src=\"\/techniques/src=\"views\/techniques/;
+            $line =~ s/src=\"\/techniques/class=\"img\-responsive\" src=\"views\/techniques/;
             say {$out_fh} $line;
             next;
         }
         elsif ( $line =~ /<img(.*?)src="images/ ) {
-            $line =~ s/src="images/src="views\/techniques\/images/;
+            $line =~ s/src="images/class=\"img\-responsive\" src="views\/techniques\/images/;
             say {$out_fh} $line;
             next;
         }
