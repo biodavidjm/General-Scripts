@@ -25,7 +25,7 @@ my $filename = $ARGV[0];
 die "---> Hey!!! "
     . $filename
     . " does not have the 'html' extension. Why not?\n"
-    if ( $filename !~ /.*\.html/ );
+    if ( $filename !~ /.*\.html*/ );
 
 # Copy the file in a folder
 my $newDirectory = 'originals';
@@ -128,6 +128,16 @@ while (my $line = <$in_fh>)
             say {$out_fh} $line;
             next;
         }
+    }
+
+    # Replacing all links of 
+    # <a href="/db/cgi-bin/.*" 
+    # by 
+    # <a href="http://www.dictybase.org/db/cgi-bin/dictyBase..." target="_blank"
+    if ($line =~ /href="\/db\/cgi/) {
+        $line =~ s/href="\/db\/cgi/href="http:\/\/www\.dictybase\.org\/db\/cgi/g;
+        say {$out_fh} $line;
+        next;
     }
 
     # Add right route to imgs
