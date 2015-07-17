@@ -115,20 +115,57 @@ while (my $line = <$in_fh>)
 
     # Replacing anchoring for the angular version and  <a href="/techniques
     # Both can happen in the same line
-    if ( ( $line =~ /<a href=\"\/techniques/ ) || ( $line =~ /<a href="#(\S+)">/ ) ) {
-        
+    if ( ( $line =~ /<a href=\"\/techniques/ ) || ( ( $line =~ /<a href="#(\S+)">/ ) && ( $line !~ /<a href="#\// ) ) ) 
+    {
         if ( $line =~ /<a href="#(\S+)">/ )
         {
             my $anchor = $1;
             $line =~ s/href="#(\S+)">/href="" ng-click="scrollTo('$anchor')">/;
+            say {$out_fh} $line;
+            next;
         }
         if ( $line =~ /<a href=\"\/techniques/ )
         {
-            $line =~ s/<a href=\"\/techniques/<a ng\-href="#\/research\/techniques/;
+            $line =~ s/<a href=\"\/techniques/<a ng\-href="#\/research\/techniques/g;
             say {$out_fh} $line;
             next;
         }
     }
+
+    if ( $line =~ /<a href="\/CitingDictyBase.htm"/ )
+    {
+        $line =~ s/<a href="\/CitingDictyBase.htm/<a href="#\/citation/;
+        say {$out_fh} $line;
+        next;
+    }
+
+    # MULTIMEDIA
+    if ( ($line =~ /<a href="/) && ( $line !~ /<a href="http/ ) && ( $line !~ /href="mailto/ ) && ($line !~ /href="#/) )
+    {
+        $line =~ s/<a href="/<a href="#\/explore\/gallery\//;
+
+        if ($line =~ /src=/)
+        {
+            my $srcline;
+            $srcline = replace_src($line);
+            say {$out_fh} $srcline;
+            next;
+        }
+        else
+        {
+            say {$out_fh} $line;
+            next;
+        }
+    }
+
+    if ( ($line =~ /src="/) )
+    {
+        my $srcline;
+        $srcline = replace_src($line);
+        say {$out_fh} $srcline;
+        next;
+    }
+
 
     # Replacing all links of 
     # <a href="/db/cgi-bin/.*" 
@@ -143,14 +180,18 @@ while (my $line = <$in_fh>)
     # Add right route to imgs
     if ( $line =~ /<img(.*?)src/ ) {
         if ( $line =~ /<img(.*?)src=\"\/techniques/ ) {
-            $line =~ s/src=\"\/techniques/class=\"img\-responsive\" src=\"views\/techniques/;
+            $line =~ s/src=\"\/techniques/class=\"img\-responsive\" src=\"views\/techniques/g;
             say {$out_fh} $line;
             next;
         }
         elsif ( $line =~ /<img(.*?)src="images/ ) {
-            $line =~ s/src="images/class=\"img\-responsive\" src="views\/techniques\/images/;
+            $line =~ s/src="images/class=\"img\-responsive\" src="views\/techniques\/images/g;
             say {$out_fh} $line;
             next;
+        }
+        elsif ($line =~ /src="\.\.\/Multimedia/ )
+        {
+            $line =~ s/src="\.\.\/Multimedia/class="img\-responsive\" src="views\/explore\/Multimedia/g;
         }
         else {
             say "WARNING: check out this link " . $line;
@@ -188,6 +229,19 @@ sub get_path {
     # Failure; fall through to next iteration.
     # If no more options, loop ends with $path undefined.
     return $good_path;
+}
+
+sub replace_src {
+    my ($src) = @_;
+    if ( $src =~ /src=/)
+    {
+        $src =~ s/src="/class="img\-responsive" src="views\/explore\/Multimedia\//g;
+        return $src;
+    }
+    else
+    {
+        return $src;
+    }
 }
 
 =head1 NAME
