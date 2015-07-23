@@ -108,19 +108,70 @@ while (my $line = <$in_fh>)
         next;
     }
 
-    if ( ( $line =~ /<body>/ ) || ( $line =~ /<\/body>/ )  )
+    if ( ( $line =~ /<body>/ ) )
     {
+
+        my $start_html = qq{
+<div class="viewHouse">
+    <div class="container" ng-controller="AnchorController">
+
+        <div class="jumbotron research">
+            <div class="row" align="center">
+                <div class="techSubHeader"><h3>Community</h3></div>
+                <h3>
+                    Annual International Dictyostelium Conference
+                </h3>
+                <a href="#/community/conference"><img src="images/logoConferenceSmall.png" class="img-responsive padding" alt="Back to Dicty Conference"></a>
+                <br>
+                <h3>Pictures</h3>
+                
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
+            <div class="col-md-8 col-sm-8 col-xs-10">
+            <!-- bootstrap columns main body start-->
+
+};
+
+        print {$out_fh} $start_html;
         next;
+    }
+
+    if ( $line =~ /<\/body>/ )  {
+
+        my $end_html = qq{
+
+            <br>
+            <br>
+            <br>
+            <div align="center">
+                <a href="#/community/conference" class="label label-info">Back to Conferences</a>
+            </div>
+            <br>
+
+            <!-- bootstrap columns main body end-->
+            </div> <!-- End of col-md-3 col-sm-2, i.e., the central column -->
+            <div class="col-md-3 col-sm-2 col-xs-1"></div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</div> <!-- viewHouse -->
+        };
+
+        print {$out_fh} $end_html;
+        next;
+
     }
 
     # Replacing anchoring for the angular version and  <a href="/techniques
     # Both can happen in the same line
-    if ( ( $line =~ /<a href=\"\/techniques/ ) || ( ( $line =~ /<a href="#(\S+)">/ ) && ( $line !~ /<a href="#\// ) ) ) 
+    if ( ( $line =~ /<a href=\"\/techniques/ ) || ( ( $line =~ /<a href="#(\w+)">/ ) && ( $line !~ /<a href="#\// ) ) ) 
     {
         if ( $line =~ /<a href="#(\S+)">/ )
         {
             my $anchor = $1;
-            $line =~ s/href="#(\S+)">/href="" ng-click="scrollTo('$anchor')">/;
+            $line =~ s/href="#(\S+)">/href="" ng-click="scrollTo('$anchor')">/g;
             say {$out_fh} $line;
             next;
         }
@@ -132,6 +183,50 @@ while (my $line = <$in_fh>)
         }
     }
 
+    # LISTSERV LINKS
+    if ( ( $line =~ /<a href="listserv/ ) || ( ( $line =~ /<a href="#(\w+)">/ ) && ( $line !~ /<a href="#\// ) ) ) 
+    {
+        if ( $line =~ /<a href="#(\w+)">/ )
+        {
+            my $anchor = $1;
+            $line =~ s/href="#(\w+)">/href="" ng-click="scrollTo('$anchor')">/g;
+            say {$out_fh} $line;
+            next;
+        }
+        if ( $line =~ /<a href="listserv/ )
+        {
+            $line =~ s/<a href="listserv/<a href="#\/community\/listserv\/listserv/g;
+            say {$out_fh} $line;
+            next;
+        }
+    }
+
+    # CONFERENCE LINKS
+    if ( ( $line =~ /<a href="\/DictyAnnualConference/ ) || ($line =~ /a href="\/conferences\/pictures/) || ( ( $line =~ /<a href="#(\w+)">/ ) && ( $line !~ /<a href="#\// ) ) ) 
+    {
+        if ( $line =~ /<a href="#(\w+)">/ )
+        {
+            my $anchor = $1;
+            $line =~ s/href="#(\w+)">/href="" ng-click="scrollTo('$anchor')">/g;
+            say {$out_fh} $line;
+            next;
+        }
+        if ( $line =~ /<a href="\/DictyAnnualConference/ )
+        {
+            $line =~ s/<a href="\/DictyAnnualConference/<a target="new" href="http:\/\/www.dictybase.org\/DictyAnnualConference/g;
+            say {$out_fh} $line;
+            next;
+        }
+        if ($line =~ /a href="\/conferences\/pictures/)
+        {
+            $line =~ s/a href="\/conferences\/pictures/a target="new" href="http:\/\/www.dictybase.org\/conferences\/pictures/g;
+            say {$out_fh} $line;
+            next;
+        }
+    }
+    
+
+    # CITING DICTYBASE
     if ( $line =~ /<a href="\/CitingDictyBase.htm"/ )
     {
         $line =~ s/<a href="\/CitingDictyBase.htm/<a href="#\/citation/;
@@ -140,31 +235,31 @@ while (my $line = <$in_fh>)
     }
 
     # MULTIMEDIA
-    if ( ($line =~ /<a href="/) && ( $line !~ /<a href="http/ ) && ( $line !~ /href="mailto/ ) && ($line !~ /href="#/) )
-    {
-        $line =~ s/<a href="/<a href="#\/explore\/gallery\//;
+    # if ( ($line =~ /<a href="/) && ( $line !~ /<a href="http/ ) && ( $line !~ /href="mailto/ ) && ($line !~ /href="#/) )
+    # {
+    #     $line =~ s/<a href="/<a href="#\/explore\/gallery\//;
 
-        if ($line =~ /src=/)
-        {
-            my $srcline;
-            $srcline = replace_src($line);
-            say {$out_fh} $srcline;
-            next;
-        }
-        else
-        {
-            say {$out_fh} $line;
-            next;
-        }
-    }
+    #     if ($line =~ /src=/)
+    #     {
+    #         my $srcline;
+    #         $srcline = replace_src($line);
+    #         say {$out_fh} $srcline;
+    #         next;
+    #     }
+    #     else
+    #     {
+    #         say {$out_fh} $line;
+    #         next;
+    #     }
+    # }
 
-    if ( ($line =~ /src="/) )
-    {
-        my $srcline;
-        $srcline = replace_src($line);
-        say {$out_fh} $srcline;
-        next;
-    }
+    # if ( ($line =~ /src="/) )
+    # {
+    #     my $srcline;
+    #     $srcline = replace_src($line);
+    #     say {$out_fh} $srcline;
+    #     next;
+    # }
 
 
     # Replacing all links of 
@@ -184,11 +279,11 @@ while (my $line = <$in_fh>)
             say {$out_fh} $line;
             next;
         }
-        elsif ( $line =~ /<img(.*?)src="images/ ) {
-            $line =~ s/src="images/class=\"img\-responsive\" src="views\/techniques\/images/g;
-            say {$out_fh} $line;
-            next;
-        }
+        # elsif ( $line =~ /<img(.*?)src="images/ ) {
+        #     $line =~ s/src="images/class=\"img\-responsive\" src="views\/techniques\/images/g;
+        #     say {$out_fh} $line;
+        #     next;
+        # }
         elsif ($line =~ /src="\.\.\/Multimedia/ )
         {
             $line =~ s/src="\.\.\/Multimedia/class="img\-responsive\" src="views\/explore\/Multimedia/g;
