@@ -118,13 +118,12 @@ while (my $line = <$in_fh>)
         <div class="jumbotron research">
             <div class="row" align="center">
                 <div class="techSubHeader"><h3>Community</h3></div>
-                <h3>
-                    Annual International Dictyostelium Conference
-                </h3>
-                <a href="#/community/conference"><img src="images/logoConferenceSmall.png" class="img-responsive padding" alt="Back to Dicty Conference"></a>
-                <br>
-                <h3>Pictures</h3>
-                
+                    <p>
+                        <span class="size40"> <a href="#/community/history"><img src="images/logoHistoryDictySmall.png" class="up"></a> History </span> 
+                    </p>
+                    <h2>My life with Dicty</h2>
+                    <img src="images/dictyBillLoomis.png" alt="Bill Loomis">
+                    <h4>Bill Loomis</h4>
             </div>
         </div>
         <br>
@@ -143,17 +142,16 @@ while (my $line = <$in_fh>)
 
         my $end_html = qq{
 
-            <br>
-            <br>
-            <br>
             <div align="center">
-                <a href="#/community/conference" class="label label-info">Back to Conferences</a>
+                <a href="#/community/history" class="label label-info">Back to History</a>
+                <a ng-click="gotoAnchor('top')" href="" class="label label-primary">Top</a> 
             </div>
-            <br>
+            <br><br>
+
 
             <!-- bootstrap columns main body end-->
-            </div> <!-- End of col-md-3 col-sm-2, i.e., the central column -->
-            <div class="col-md-3 col-sm-2 col-xs-1"></div>
+            </div> <!-- End of col-md- col-sm-, i.e., the central column -->
+            <div class="col-md-2 col-sm-2 col-xs-1"></div>
         </div> <!-- row -->
     </div> <!-- container -->
 </div> <!-- viewHouse -->
@@ -200,6 +198,7 @@ while (my $line = <$in_fh>)
             next;
         }
     }
+
 
     # CONFERENCE LINKS
     if ( ( $line =~ /<a href="\/DictyAnnualConference/ ) || ($line =~ /a href="\/conferences\/pictures/) || ( ( $line =~ /<a href="#(\w+)">/ ) && ( $line !~ /<a href="#\// ) ) ) 
